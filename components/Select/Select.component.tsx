@@ -46,6 +46,7 @@ const SelectInput = ({ name, options, placeholder, onChange, ...rest }: Props) =
   return (
     <Select
       defaultValue={defaultValue}
+      maxMenuHeight={150}
       name={name}
       onChange={onChange}
       options={options}

@@ -8,7 +8,8 @@ import { useMemo, useRef } from 'react';
 import { Actions } from 'components/Actions';
 import { Dialog, DialogRef } from 'components/Dialog';
 import { Table } from 'components/Table';
-import { UserModal, UserModalRef } from 'components/pages/usuarios/UserModal';
+import { UserFormModal, UserFormModalRef } from 'components/pages/usuarios/UserFormModal';
+import { UserViewModal, UserViewModalRef } from 'components/pages/usuarios/UserViewModal';
 
 import { useFetch } from 'hooks/useFetch.hook';
 
@@ -19,7 +20,8 @@ import { UserResponse } from 'models/user';
 import { formatDate } from 'utils/format_date';
 
 const Users: NextPage = () => {
-  const modalRef = useRef<UserModalRef>(null);
+  const modalRef = useRef<UserFormModalRef>(null);
+  const viewModalRef = useRef<UserViewModalRef>(null);
   const dialogRef = useRef<DialogRef>(null);
 
   const { data: users, isValidating, mutate: updateUsersTable } = useFetch<UserResponse[]>('/usuarios/listar');
@@ -49,7 +51,7 @@ const Users: NextPage = () => {
         width: '6rem',
         cell: (row) => <Actions
           handleDelete={() => dialogRef.current?.handleOpenDialog(row.id, 'usuarios')}
-          handleView={() => undefined}
+          handleView={() => viewModalRef.current?.handleOpenModal(row.id)}
           key={row.id}
         />,
       },
@@ -78,7 +80,9 @@ const Users: NextPage = () => {
         />
       </Main>
 
-      <UserModal ref={modalRef} handleSuccess={updateUsersTable} />
+      <UserFormModal ref={modalRef} handleSuccess={updateUsersTable} />
+
+      <UserViewModal ref={viewModalRef} />
 
       <Dialog ref={dialogRef} handleSuccess={updateUsersTable} />
     </>

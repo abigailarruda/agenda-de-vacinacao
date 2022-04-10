@@ -17,10 +17,10 @@ import { api } from 'services/api';
 
 import { formatDateToRequest } from 'utils/format_date';
 
-import { sexSelect, stateSelect } from './UserModal.utils';
-import { schema } from './UserModal.validations';
+import { sexSelect, stateSelect } from './UserFormModal.utils';
+import { schema } from './UserFormModal.validations';
 
-export interface UserModalRef {
+export interface UserFormModalRef {
   handleOpenModal: () => void;
 }
 
@@ -28,7 +28,7 @@ interface Props {
   handleSuccess: () => Promise<UserResponse[]>;
 }
 
-const UserModal = forwardRef<UserModalRef, Props>(({ handleSuccess }, ref) => {
+const UserFormModal = forwardRef<UserFormModalRef, Props>(({ handleSuccess }, ref) => {
   const formRef = useRef<FormHandles>(null);
 
   const [open, setOpen] = useState(false);
@@ -151,4 +151,4 @@ const UserModal = forwardRef<UserModalRef, Props>(({ handleSuccess }, ref) => {
   );
 });
 
-export default UserModal;
+export default UserFormModal;

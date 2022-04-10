@@ -46,7 +46,7 @@ const AllergyViewModal = forwardRef<AllergyViewModalRef>((_, ref) => {
   if (!open) return <></>;
 
   return (
-    <Modal open={open} handleClose={handleCloseModal} size="3xl" title={`Alergia "${allergy?.nome.toLowerCase()}"`}>
+    <Modal open={open} handleClose={handleCloseModal} size="3xl" title={allergy?.nome}>
       {!!allergy?.usuarios?.length && (
         <Text color="green.500" textTransform="uppercase" fontSize="0.75rem" fontWeight="600" marginBottom="1rem">
           Usuários com esta alergia
@@ -58,7 +58,7 @@ const AllergyViewModal = forwardRef<AllergyViewModalRef>((_, ref) => {
         columns={columns}
         loading={loading}
         paginationServer={false}
-        meta={{ per: 10, total: allergy?.usuarios?.length }}
+        meta={{ per: 5, total: allergy?.usuarios?.length }}
       />
     </Modal>
   );
