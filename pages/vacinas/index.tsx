@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import type { NextPage } from 'next';
-import { FiPlus } from 'react-icons/fi';
 import { Container, Button } from '@chakra-ui/react';
+import { FiPlus } from 'react-icons/fi';
 
 import { Table } from 'components/Table';
 
@@ -16,14 +16,7 @@ const Vaccines: NextPage = () => {
 
       <Main>
         <Container minWidth="100%" display="flex" justifyContent="flex-end" padding={0}>
-          <Button
-            leftIcon={<FiPlus />}
-            colorScheme="green"
-            variant="solid"
-            borderRadius="4px"
-            fontWeight="medium"
-            // onClick={() => modalRef.current?.handleOpenModal()}
-          >
+          <Button leftIcon={<FiPlus />} colorScheme="green" /* onClick={() => modalRef.current?.handleOpenModal()} */>
             Adicionar vacina
           </Button>
         </Container>
@@ -33,10 +26,7 @@ const Vaccines: NextPage = () => {
           columns={[]}
           // loading={isValidating}
           paginationServer={false}
-          meta={{
-            per: 10,
-            total: 0,
-          }}
+          meta={{ per: 10, total: 0 }}
         />
       </Main>
     </>

@@ -1,17 +1,19 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
-import { SubmitHandler, FormHandles } from '@unform/core';
+import { Button, Container } from '@chakra-ui/react';
 import { Form } from '@unform/web';
+import { SubmitHandler, FormHandles } from '@unform/core';
 import { ValidationError } from 'yup';
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 
 import { Modal } from 'components/Modal';
 import { Input } from 'components/Input';
 
 import { Allergy } from 'models/allergy';
-import { Button, ButtonGroup, Container } from '@chakra-ui/react';
-import { schema } from './AllergyModal.validations';
+
 import { api } from 'services/api';
 
-export interface AllergyModalRef {
+import { schema } from './AllergyFormModal.validations';
+
+export interface AllergyFormModalRef {
   handleOpenModal: () => void;
 }
 
@@ -19,16 +21,14 @@ interface Props {
   handleSuccess: () => Promise<Allergy[]>;
 }
 
-const AllergyModal = forwardRef<AllergyModalRef, Props>(({ handleSuccess }, ref) => {
+const AllergyFormModal = forwardRef<AllergyFormModalRef, Props>(({ handleSuccess }, ref) => {
   const formRef = useRef<FormHandles>(null);
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useImperativeHandle(ref, () => ({
-    handleOpenModal: () => {
-      setOpen(true);
-    },
+    handleOpenModal: () => setOpen(true),
   }), []);
 
   const handleCloseModal = () => {
@@ -42,9 +42,7 @@ const AllergyModal = forwardRef<AllergyModalRef, Props>(({ handleSuccess }, ref)
     try {
       await schema.validate(data, { abortEarly: false });
 
-      await api.post('/alergias/criar', {
-        nome: data.nome,
-      });
+      await api.post<Allergy>('/alergias/criar', { nome: data.nome });
 
       await handleSuccess();
 
@@ -67,41 +65,22 @@ const AllergyModal = forwardRef<AllergyModalRef, Props>(({ handleSuccess }, ref)
   if (!open) return <></>;
 
   return (
-    <Modal
-      open={open}
-      handleClose={handleCloseModal}
-      size="sm"
-      title="Adicionar alergia"
-    >
+    <Modal open={open} handleClose={handleCloseModal} size="sm" title="Adicionar alergia">
       <Form ref={formRef} onSubmit={handleSubmit}>
         <Input name="nome" placeholder="Nome" />
 
         <Container minWidth="100%" display="flex" justifyContent="flex-end" padding={0} marginTop="1rem">
-          <ButtonGroup spacing="1rem">
-            <Button
-              onClick={handleCloseModal}
-              variant="solid"
-              borderRadius="4px"
-              fontWeight="medium"
-            >
-              Cancelar
-            </Button>
+          <Button onClick={handleCloseModal}>
+            Cancelar
+          </Button>
 
-            <Button
-              type="submit"
-              colorScheme="green"
-              variant="solid"
-              borderRadius="4px"
-              fontWeight="medium"
-              isLoading={loading}
-            >
-              Salvar
-            </Button>
-          </ButtonGroup>
+          <Button type="submit" colorScheme="green" isLoading={loading} marginLeft="1rem">
+            Salvar
+          </Button>
         </Container>
       </Form>
     </Modal>
   );
 });
 
-export default AllergyModal;
+export default AllergyFormModal;

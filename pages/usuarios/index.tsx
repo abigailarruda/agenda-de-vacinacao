@@ -2,43 +2,85 @@ import Head from 'next/head';
 import type { NextPage } from 'next';
 import { Button, Container } from '@chakra-ui/react';
 import { FiPlus } from 'react-icons/fi';
+import { TableColumn } from 'react-data-table-component';
+import { useMemo, useRef } from 'react';
 
+import { Actions } from 'components/Actions';
+import { Dialog, DialogRef } from 'components/Dialog';
 import { Table } from 'components/Table';
+import { UserModal, UserModalRef } from 'components/pages/usuarios/UserModal';
+
+import { useFetch } from 'hooks/useFetch.hook';
 
 import { Main } from 'layouts/Main';
 
+import { UserResponse } from 'models/user';
+
+import { formatDate } from 'utils/format_date';
+
 const Users: NextPage = () => {
+  const modalRef = useRef<UserModalRef>(null);
+  const dialogRef = useRef<DialogRef>(null);
+
+  const { data: users, isValidating, mutate: updateUsersTable } = useFetch<UserResponse[]>('/usuarios/listar');
+
+  const columns: TableColumn<UserResponse>[] = useMemo(() => {
+    return [
+      {
+        name: 'ID',
+        width: '5rem',
+        selector: row => row.id,
+      },
+      {
+        name: 'Nome',
+        width: '15rem',
+        selector: row => row.nome,
+      },
+      {
+        name: 'Data de nascimento',
+        selector: row => formatDate(row.dataNascimento),
+      },
+      {
+        name: 'Sexo',
+        selector: row => row.sexoDescricao,
+      },
+      {
+        name: '',
+        width: '6rem',
+        cell: (row) => <Actions
+          handleDelete={() => dialogRef.current?.handleOpenDialog(row.id, 'usuarios')}
+          handleView={() => undefined}
+          key={row.id}
+        />,
+      },
+    ];
+  }, []);
+
   return (
     <>
       <Head>
-        <title>Agenda de Vacinação | Usários</title>
+        <title>Agenda de Vacinação | Usuários</title>
       </Head>
 
       <Main>
         <Container minWidth="100%" display="flex" justifyContent="flex-end" padding={0}>
-          <Button
-            leftIcon={<FiPlus />}
-            colorScheme="green"
-            variant="solid"
-            borderRadius="4px"
-            fontWeight="medium"
-            // onClick={() => modalRef.current?.handleOpenModal()}
-          >
+          <Button leftIcon={<FiPlus />} colorScheme="green" onClick={() => modalRef.current?.handleOpenModal()}>
             Adicionar usuário
           </Button>
         </Container>
 
         <Table
-          data={[]}
-          columns={[]}
-          // loading={isValidating}
+          data={users}
+          columns={columns}
+          loading={isValidating}
           paginationServer={false}
-          meta={{
-            per: 10,
-            total: 0,
-          }}
+          meta={{ per: 10, total: users?.length }}
         />
       </Main>
+
+      <UserModal ref={modalRef} handleSuccess={updateUsersTable} />
+
+      <Dialog ref={dialogRef} handleSuccess={updateUsersTable} />
     </>
   );
 };

@@ -16,14 +16,7 @@ const Schedule: NextPage = () => {
 
       <Main>
         <Container minWidth="100%" display="flex" justifyContent="flex-end" padding={0}>
-          <Button
-            leftIcon={<FiPlus />}
-            colorScheme="green"
-            variant="solid"
-            borderRadius="4px"
-            fontWeight="medium"
-            // onClick={() => modalRef.current?.handleOpenModal()}
-          >
+          <Button leftIcon={<FiPlus />} colorScheme="green" /* onClick={() => modalRef.current?.handleOpenModal()}*/>
             Adicionar agenda
           </Button>
         </Container>
@@ -33,10 +26,7 @@ const Schedule: NextPage = () => {
           columns={[]}
           // loading={isValidating}
           paginationServer={false}
-          meta={{
-            per: 10,
-            total: 0,
-          }}
+          meta={{ per: 10, total: 0 }}
         />
       </Main>
     </>

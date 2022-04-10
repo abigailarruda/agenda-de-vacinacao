@@ -18,8 +18,8 @@ export interface DialogRef {
   handleOpenDialog: (id: number, type: ObjectType) => void;
 }
 
-interface Props {
-  handleSuccess: () => Promise<unknown>;
+interface Props<T = unknown> {
+  handleSuccess: () => Promise<T[]>;
 }
 
 const Dialog = forwardRef<DialogRef, Props>(({ handleSuccess }, ref) => {
@@ -51,7 +51,7 @@ const Dialog = forwardRef<DialogRef, Props>(({ handleSuccess }, ref) => {
     setLoading(true);
 
     try {
-      api.delete(`${type}/remover/${id}`);
+      await api.delete(`${type}/remover/${id}`);
 
       await handleSuccess();
 
@@ -63,7 +63,7 @@ const Dialog = forwardRef<DialogRef, Props>(({ handleSuccess }, ref) => {
         isClosable: false,
         position: 'top-right',
         status: 'error',
-        title: `Ocorreu um erro ao remover ${type.slice(0, -1)}.`,
+        title: `Ocorreu um erro ao remover ${type === 'usuarios' ? 'usuário' : type.slice(0, -1)}.`,
       });
     } finally {
       setLoading(false);
@@ -73,16 +73,11 @@ const Dialog = forwardRef<DialogRef, Props>(({ handleSuccess }, ref) => {
   if (!open) return <></>;
 
   return (
-    <AlertDialog
-      size="sm"
-      isOpen={open}
-      leastDestructiveRef={cancelButtonRef}
-      onClose={handleCloseDialog}
-    >
+    <AlertDialog isCentered isOpen={open} leastDestructiveRef={cancelButtonRef} onClose={handleCloseDialog} size="sm">
       <AlertDialogOverlay backdropFilter="blur(2px)">
         <AlertDialogContent>
           <AlertDialogHeader fontWeight="bold" textAlign="center">
-            Excluir {type.slice(0, -1)}
+            Excluir {type === 'usuarios' ? 'usuário' : type.slice(0, -1)}
           </AlertDialogHeader>
 
           <AlertDialogBody textAlign="center">
@@ -91,23 +86,11 @@ const Dialog = forwardRef<DialogRef, Props>(({ handleSuccess }, ref) => {
           </AlertDialogBody>
 
           <AlertDialogFooter justifyContent="center">
-            <Button
-              ref={cancelButtonRef}
-              onClick={handleCloseDialog}
-              borderRadius="4px"
-              fontWeight="medium"
-            >
+            <Button onClick={handleCloseDialog} ref={cancelButtonRef}>
               Cancelar
             </Button>
 
-            <Button
-              colorScheme="red"
-              onClick={handleDelete}
-              marginLeft="1rem"
-              borderRadius="4px"
-              fontWeight="medium"
-              isLoading={loading}
-            >
+            <Button colorScheme="red" isLoading={loading} marginLeft="1rem" onClick={handleDelete}>
               Excluir
             </Button>
           </AlertDialogFooter>

@@ -22,7 +22,7 @@ const Table = ({ data, columns, meta, loading }: Props) => {
       borderStyle="solid"
       borderWidth="1px"
       borderRadius="4px"
-      padding={!!data.length ? '0 1rem' : '1rem'}
+      padding={!!data?.length ? '0 1rem' : '1rem'}
       width="100%"
     >
       <DataTable

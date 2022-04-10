@@ -1,11 +1,5 @@
 import {
-  Modal as ModalContainer,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
+  Modal as ModalContainer, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay,
 } from '@chakra-ui/react';
 
 interface Props {
@@ -18,13 +12,7 @@ interface Props {
 
 const Modal = ({ open, handleClose, size, children, title }: Props) => {
   return (
-    <ModalContainer
-      isCentered
-      isOpen={open}
-      onClose={handleClose}
-      scrollBehavior="inside"
-      size={size}
-    >
+    <ModalContainer isCentered isOpen={open} onClose={handleClose} scrollBehavior="inside" size={size}>
       <ModalOverlay backdropFilter="blur(2px)" />
 
       <ModalContent>

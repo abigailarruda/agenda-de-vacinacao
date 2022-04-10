@@ -1,3 +1,4 @@
+import InputMask from 'react-input-mask';
 import { FormControl, FormHelperText, Input as FormInput, InputProps } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 import { useField } from '@unform/core';
@@ -6,9 +7,10 @@ interface Props extends InputProps {
   name: string;
   placeholder: string;
   required?: boolean;
+  mask?: string;
 }
 
-const Input = ({ name, placeholder, required, ...rest }: Props) => {
+const Input = ({ name, placeholder, mask, required, ...rest }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { fieldName, defaultValue, registerField, error } = useField(name);
@@ -41,6 +43,8 @@ const Input = ({ name, placeholder, required, ...rest }: Props) => {
         placeholder={placeholder}
         ref={inputRef}
         width="100%"
+        as={mask ? InputMask : 'input'}
+        mask={mask ? mask : ''}
         {...rest}
       />
 
