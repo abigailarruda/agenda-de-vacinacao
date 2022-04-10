@@ -7,3 +7,5 @@ export interface Allergy {
     id: number;
   }[];
 }
+
+export type AllergyUserResponse = Pick<Allergy, 'id' | 'nome'>;
