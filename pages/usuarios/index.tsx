@@ -48,7 +48,7 @@ const Users: NextPage = () => {
       },
       {
         name: '',
-        width: '6rem',
+        width: '5rem',
         cell: (row) => <Actions
           handleDelete={() => dialogRef.current?.handleOpenDialog(row.id, 'usuarios')}
           handleView={() => viewModalRef.current?.handleOpenModal(row.id)}

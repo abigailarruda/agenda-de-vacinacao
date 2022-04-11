@@ -27,8 +27,8 @@ const Navbar = () => {
         </Heading>
 
         <HStack as="nav" spacing="1.5rem">
-          <NavLink href="/agenda" activeUrl="agenda">
-            Agenda
+          <NavLink href="/agendas" activeUrl="agendas">
+            Agendas
           </NavLink>
 
           <NavLink href="/vacinas" activeUrl="vacinas">

@@ -1,11 +1,15 @@
-import { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
+import { Badge, Divider, List, ListItem, Text } from '@chakra-ui/react';
 import { TableColumn } from 'react-data-table-component';
-import { Container, Divider, List, ListItem, SimpleGrid, Text } from '@chakra-ui/react';
+import { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
+
+import { ESituationColors } from 'enums/situation';
 
 import { Modal } from 'components/Modal';
 import { Table } from 'components/Table';
 import { Title } from 'components/Title';
 
+import { AllergyUserResponse } from 'models/allergy';
+import { ScheduleUserResponse } from 'models/schedule';
 import { UserResponse } from 'models/user';
 
 import { api } from 'services/api';
@@ -39,10 +43,28 @@ const UserViewModal = forwardRef<UserViewModalRef>((_, ref) => {
     setUser(null);
   };
 
-  const columns: TableColumn<{ nome: string, id: number }>[] = useMemo(() => {
+  const allergiesColumns: TableColumn<AllergyUserResponse>[] = useMemo(() => {
     return [
       { name: 'ID', width: '5rem', selector: row => row.id },
       { name: 'Nome', selector: row => row.nome },
+    ];
+  }, []);
+
+  const scheduleColumns: TableColumn<ScheduleUserResponse>[] = useMemo(() => {
+    return [
+      { name: 'ID', width: '5rem', selector: row => row.id },
+      { name: 'Data', selector: row => formatDate(row.data) },
+      {
+        name: 'Situação',
+        selector: row => row.situacaoDescricao,
+        cell: (row) => (
+          <Badge variant="subtle" colorScheme={ESituationColors[row.situacaoDescricao]}>
+            {row.situacaoDescricao}
+          </Badge>
+        ),
+      },
+      { name: 'Observações', selector: row => row.observacoes ? row.observacoes : '-' },
+      { name: 'Data da situação', selector: row => row.dataSituacao ? formatDate(row.dataSituacao) : '-' },
     ];
   }, []);
 
@@ -91,7 +113,7 @@ const UserViewModal = forwardRef<UserViewModalRef>((_, ref) => {
 
           <Table
             data={user?.agendas}
-            columns={columns}
+            columns={scheduleColumns}
             loading={loading}
             paginationServer={false}
             meta={{ per: 5, total: user?.agendas?.length }}
@@ -109,7 +131,7 @@ const UserViewModal = forwardRef<UserViewModalRef>((_, ref) => {
 
           <Table
             data={user?.alergias}
-            columns={columns}
+            columns={allergiesColumns}
             loading={loading}
             paginationServer={false}
             meta={{ per: 5, total: user?.alergias?.length }}

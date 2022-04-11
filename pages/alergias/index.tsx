@@ -30,7 +30,7 @@ const Allergies: NextPage = () => {
       { name: 'Nome', selector: row => row.nome },
       {
         name: '',
-        width: '6rem',
+        width: '5rem',
         cell: (row) => (
           <Actions
             handleDelete={() => dialogRef.current?.handleOpenDialog(row.id, 'alergias')}

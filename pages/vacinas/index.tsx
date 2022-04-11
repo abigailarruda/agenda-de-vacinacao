@@ -30,7 +30,7 @@ const Vaccines: NextPage = () => {
       { name: 'Título', selector: row => row.titulo },
       {
         name: '',
-        width: '6rem',
+        width: '5rem',
         cell: (row) => <Actions
           handleDelete={() => dialogRef.current?.handleOpenDialog(row.id, 'vacinas')}
           handleView={() => viewModalRef.current?.handleOpenModal(row.id)}

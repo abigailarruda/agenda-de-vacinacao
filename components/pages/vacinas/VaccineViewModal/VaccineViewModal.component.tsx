@@ -1,6 +1,8 @@
 import { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
 import { TableColumn } from 'react-data-table-component';
-import { Container, Divider, List, ListItem, SimpleGrid, Text } from '@chakra-ui/react';
+import { Badge, Divider, List, ListItem, Text } from '@chakra-ui/react';
+
+import { ESituationColors } from 'enums/situation';
 
 import { Modal } from 'components/Modal';
 import { Table } from 'components/Table';
@@ -43,17 +45,26 @@ const VaccineViewModal = forwardRef<VaccineViewModalRef>((_, ref) => {
   const columns: TableColumn<ScheduleVaccineResponse>[] = useMemo(() => {
     return [
       { name: 'ID', width: '5rem', selector: row => row.id },
+      { name: 'ID do usuário', width: '8rem', selector: row => row.usuarioId },
       { name: 'Data', selector: row => formatDate(row.data) },
-      { name: 'Situação', selector: row => row.situacaoDescricao },
+      {
+        name: 'Situação',
+        selector: row => row.situacaoDescricao,
+        cell: (row) => (
+          <Badge variant="subtle" colorScheme={ESituationColors[row.situacaoDescricao]}>
+            {row.situacaoDescricao}
+          </Badge>
+        ),
+      },
       { name: 'Observações', selector: row => row.observacoes ? row.observacoes : '-' },
-      { name: 'Data da situação', selector: row => formatDate(row.dataSituacao) },
+      { name: 'Data da situação', selector: row => row.dataSituacao ? formatDate(row.dataSituacao) : '-' },
     ];
   }, []);
 
   if (!open) return <></>;
 
   return (
-    <Modal open={open} handleClose={handleCloseModal} size="3xl" title={vaccine?.titulo}>
+    <Modal open={open} handleClose={handleCloseModal} size="4xl" title={vaccine?.titulo}>
 
       <List spacing="0.25rem" marginBottom="1rem">
         <ListItem>
@@ -62,6 +73,10 @@ const VaccineViewModal = forwardRef<VaccineViewModalRef>((_, ref) => {
 
         <ListItem>
           <Title text="Descrição:" /> {vaccine?.descricao ? vaccine?.descricao : '-'}
+        </ListItem>
+
+        <ListItem>
+          <Title text="Doses: "/> {vaccine?.doses}
         </ListItem>
 
         <ListItem>

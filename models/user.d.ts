@@ -9,6 +9,7 @@ interface User {
   id?: number;
   nome: string;
   sexo: number;
+  sexoDescricao?: string;
 }
 
 interface UserResponse extends Pick<User, 'dataNascimento' | 'endereco' | 'nome' | 'sexo'> {
