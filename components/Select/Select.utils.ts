@@ -4,7 +4,7 @@ export const customStyles: StylesConfig = {
   control: (defaultStyles) => ({
     ...defaultStyles,
     'height': '2.5rem',
-    'width': '100%',
+    'width': '100% !important',
     'border': '1px solid #E2E8F0',
     'display': 'flex',
     'borderRadius': '4px',
@@ -47,6 +47,11 @@ export const customStyles: StylesConfig = {
     boxShadow: '0 !important',
     border: '1px solid #E2E8F0',
     backgroundColor: '#FFFFFF',
+    zIndex: 9999,
+  }),
+  menuPortal: (defaultStyles) => ({
+    ...defaultStyles,
+    zIndex: 9999,
   }),
   option: (defaultStyles, state) => ({
     ...defaultStyles,

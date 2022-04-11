@@ -1,8 +1,8 @@
 import Select, { Props as SelectProps } from 'react-select';
 import { useField } from '@unform/core';
+import { useRef, useEffect } from 'react';
 
 import { customStyles } from './Select.utils';
-import { useRef, useEffect } from 'react';
 
 export interface Option {
   label: string | number;
@@ -46,7 +46,8 @@ const SelectInput = ({ name, options, placeholder, onChange, ...rest }: Props) =
   return (
     <Select
       defaultValue={defaultValue}
-      maxMenuHeight={80}
+      maxMenuHeight={200}
+      menuPosition={'fixed'}
       name={name}
       onChange={onChange}
       options={options}
