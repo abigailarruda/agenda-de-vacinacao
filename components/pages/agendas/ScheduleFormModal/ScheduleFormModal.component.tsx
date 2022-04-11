@@ -11,15 +11,14 @@ import { Select } from 'components/Select';
 import { useFetch } from 'hooks/useFetch.hook';
 
 import { Schedule, ScheduleResponse } from 'models/schedule';
+import { UserResponse } from 'models/user';
+import { VaccineResponse } from 'models/vaccine';
 
 import { api } from 'services/api';
 
 import { formatDateToRequest } from 'utils/format_date';
 
-import { periodSelect } from './ScheduleFormModal.utils';
 import { schema } from './ScheduleFormModal.validations';
-import { UserResponse } from 'models/user';
-import { VaccineResponse } from 'models/vaccine';
 
 export interface ScheduleFormModalRef {
   handleOpenModal: () => void;

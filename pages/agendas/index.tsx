@@ -11,6 +11,7 @@ import { Actions } from 'components/Actions';
 import { Dialog, DialogRef } from 'components/Dialog';
 import { ScheduleFormModal, ScheduleFormModalRef } from 'components/pages/agendas/ScheduleFormModal';
 import { ScheduleViewModal, ScheduleViewModalRef } from 'components/pages/agendas/ScheduleViewModal';
+import { ScheduleWriteOffModal, ScheduleWriteOffModalRef } from 'components/pages/agendas/ScheduleWriteOffModal';
 import { Table } from 'components/Table';
 
 import { useFetch } from 'hooks/useFetch.hook';
@@ -24,6 +25,7 @@ import { formatDate } from 'utils/format_date';
 const Schedule: NextPage = () => {
   const modalRef = useRef<ScheduleFormModalRef>(null);
   const viewModalRef = useRef<ScheduleViewModalRef>(null);
+  const writeOffModalRef = useRef<ScheduleWriteOffModalRef>(null);
   const dialogRef = useRef<DialogRef>(null);
 
   const { data: schedules, isValidating, mutate: updateSchedulesTable } = useFetch<ScheduleResponse[]>(
@@ -53,6 +55,7 @@ const Schedule: NextPage = () => {
           showWriteOff
           handleDelete={() => dialogRef.current?.handleOpenDialog(row.id, 'vacinas')}
           handleView={() => viewModalRef.current?.handleOpenModal(row.id)}
+          handleWriteOff={() => writeOffModalRef.current?.handleOpenModal(row.id)}
           key={row.id}
         />,
       },
@@ -84,6 +87,8 @@ const Schedule: NextPage = () => {
       <ScheduleFormModal ref={modalRef} handleSuccess={updateSchedulesTable} />
 
       <ScheduleViewModal ref={viewModalRef} />
+
+      <ScheduleWriteOffModal ref={writeOffModalRef} handleSuccess={updateSchedulesTable} />
 
       <Dialog ref={dialogRef} handleSuccess={updateSchedulesTable} />
     </>

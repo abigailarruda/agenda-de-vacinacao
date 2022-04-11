@@ -23,3 +23,7 @@ export type ScheduleUserResponse = Pick<ScheduleResponse,
 export interface ScheduleVaccineResponse extends ScheduleUserResponse {
   usuarioId: number;
 };
+
+export interface ScheduleWriteOff extends Pick<ScheduleResponse, 'situacao'> {
+  agendaId: string;
+}
