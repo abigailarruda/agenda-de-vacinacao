@@ -72,7 +72,7 @@ const Users: NextPage = () => {
         </Container>
 
         <Table
-          data={users}
+          data={users || []}
           columns={columns}
           loading={isValidating}
           paginationServer={false}

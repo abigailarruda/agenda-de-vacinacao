@@ -11,5 +11,5 @@ export interface Vaccine {
 }
 
 export interface VaccineResponse extends Vaccine {
-  agendas: ScheduleVaccineResponse;
+  agendas: ScheduleVaccineResponse[];
 }
